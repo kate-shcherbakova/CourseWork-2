@@ -1,0 +1,128 @@
+﻿@model MvcAvia.Models.SearchViewModel
+
+
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">KHNUE Airlines</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Поиск авиабилетов</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!--верхня частина - поля для пошуку-->
+<div class="row d-flex justify-content-center">
+    <form asp-controller="Search" asp-action="Index" method="get">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-row">
+            <div class="col">
+                <input asp-for="From" placeholder="Откуда" class="form-control" id="from">
+                <span asp-validation-for="From" class="text-danger"></span>
+                <small id="from" class="form-text text-muted">
+                    Город, аэропорт или IATA код
+                </small>
+            </div>
+            <div class="col">
+                <input asp-for="To" placeholder="Куда" class="form-control" id="to">
+                <span asp-validation-for="To" class="text-danger"></span>
+                <small id="to" class="form-text text-muted">
+                    Город, аэропорт или IATA код
+                </small>
+            </div>
+            <div class="col">
+                <input asp-for="Date" placeholder="Дата" class="form-control" id="date">
+                <span asp-validation-for="Date" class="text-danger"></span>
+                <small id="date" class="form-text text-muted">
+                    Дата вылета
+                </small>
+            </div>
+            <div class="col">
+                <button type="submit" class="btn btn-primary form-control" style="float: left; width: 100px;">Поиск</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<br>
+<br>
+
+<!--середня частина - останній квиток, який шукали-->
+@if (Model.LastSearch != null)
+{
+    <div class="card text-center">
+        <div class="card-header">
+            Авиабилет найден!
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">@Html.DisplayFor(model => model.LastSearch.Date)</h5>
+            <h4 class="card-text">@Html.DisplayFor(model => model.LastSearch.FromAirport.CityName) - @Html.DisplayFor(model => model.LastSearch.ToAirport.CityName)</h4>
+            <h3 class="card-title">$@Html.DisplayFor(model => model.LastSearch.Price)</h3>
+            <a href="#" class="btn btn-primary" onclick="alert('На данный момент покупка билетов недоступна. Попробуйте позже!');">Купить</a>
+        </div>
+        <div class="card-footer text-muted">
+            Удачи в поисках авиабилетов!
+        </div>
+    </div>
+}
+
+<!--нижня частина - список останніх квитків-->
+<h5 class="card-title" style="padding-top: 60px">Недавно искали</h5>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Searches[0].FromAirport)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Searches[0].ToAirport)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Searches[0].Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Searches[0].Price)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Searches)
+        {
+            <tr>
+                <td>
+                    @{
+                        var fromAirportCityAndCode = item.FromAirport.CityName + " (" + item.FromAirport.Code + ")";
+                        @Html.DisplayFor(modelItem => fromAirportCityAndCode)
+                    }
+                </td>
+                <td>
+                    @{
+                        var toAirportCityAndCode = item.ToAirport.CityName + " (" + item.ToAirport.Code + ")";
+                        @Html.DisplayFor(modelItem => toAirportCityAndCode)
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br>
+<br>
+<br>
+<br>

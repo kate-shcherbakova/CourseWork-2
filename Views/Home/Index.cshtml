@@ -1,0 +1,37 @@
+﻿@model MvcAvia.Models.SearchViewModel
+
+<div class="container h-auto">
+    <div class="d-flex justify-content-md-center align-items-center vh-100">
+        <!--при натисканні на кнопку відправляється форма на адресу https://localhost:{port}/Search/Index-->
+        <form asp-controller="Search" asp-action="Index" method="get">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-row">
+                <div class="col">
+                    <!--input name="From"-->
+                    <input asp-for="From" placeholder="Откуда" class="form-control" id="from">
+                    <span asp-validation-for="From" class="text-danger"></span>
+                    <small id="from" class="form-text text-muted">
+                        Город, аэропорт или IATA код
+                    </small>
+                </div>
+                <div class="col">
+                    <input asp-for="To" placeholder="Куда" class="form-control" id="to">
+                    <span asp-validation-for="To" class="text-danger"></span>
+                    <small id="to" class="form-text text-muted">
+                        Город, аэропорт или IATA код
+                    </small>
+                </div>
+                <div class="col">
+                    <input asp-for="Date" placeholder="Дата" class="form-control">
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                    <small id="from" class="form-text text-muted">
+                        Дата вылета
+                    </small>
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-primary form-control" style="float: left; width: 180px;">Поиск</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
